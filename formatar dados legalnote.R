@@ -8,9 +8,12 @@ Tabela.Diario <- read.csv("Legal Note.csv",
 
 #Criar uma nova coluna com os dados dos intimados, tirar espaços excedentes e desacentuar.
 Tabela.Diario <- transform(Tabela.Diario, 
-                           ADVOGADOS = gsub(") ", "), ", gsub("'|\\'", "",iconv(trimws(sub(".*?Intimados(.*?))*", "\\1", Tabela.Diario$RECORTE),"both"),
-                                                                                to="ASCII//TRANSLIT"))))
-
+                           ADVOGADOS = gsub(") ", "), ", 
+                                       gsub("'|\\'", "",
+                                       iconv(trimws(sub(".*?Intimados(.*?))*", "\\1", 
+                                                        Tabela.Diario$RECORTE),"both"),
+                                                        to="ASCII//TRANSLIT"))))
+#ajuste de datas
 Tabela.Diario$PUBDATA <- as.Date(Tabela.Diario$PUBDATA, "%m/%d/%y")
 Tabela.Diario$CREATEDATA <- as.Date(Tabela.Diario$CREATEDATA, "%m/%d/%y")
 

@@ -1,4 +1,5 @@
 library(shiny)
+library(DT)
 
 # Define UI for dataset viewer application
 shinyUI(fluidPage(
@@ -6,17 +7,13 @@ shinyUI(fluidPage(
   # Application title.
   titlePanel("Teste Legal Note"),
   
-  # Sidebar with controls to select a dataset and specify the
-  # number of observations to view. The helpText function is
-  # also used to include clarifying text. Most notably, the
-  # inclusion of a submitButton defers the rendering of output
-  # until the user explicitly clicks the button (rather than
-  # doing it immediately when inputs change). This is useful if
-  # the computations required to render output are inordinately
-  # time-consuming.
   sidebarLayout(
     sidebarPanel(
-      
+#       
+#       dateRangeInput('dateRange',
+#                      label = 'Data: ',
+#                      start = Sys.Date() - 2, end = Sys.Date() + 2
+#       ),
       
       selectInput("dataset", 
                   "CADERNO", 
@@ -31,26 +28,28 @@ shinyUI(fluidPage(
                   "ADVOGADO",
                   c("TODOS", unique(as.character(Lista.Intimados$NOMEADV)))),
       
-        
       
+      helpText("Note: Para atualizar os dados da tabela",
+               "clique em atualizar."
+               ),
       
+      submitButton("Atualizar Dados")
       
-      helpText("Note: while the data view will show only the specified",
-               "number of observations, the summary will still be based",
-               "on the full dataset."),
-      
-      submitButton("Update View")
-    
     ),
     
     # Show a summary of the dataset and an HTML table with the
     # requested number of observations. Note the use of the h4
     # function to provide an additional header above each output
     # section.
-    fluidPage(
     
-      DT::dataTableOutput("table")
+    fluidPage(
+           
+      wellPanel(
+        
+        span("Numero de Recortes: ",
+           textOutput("n_data"))
+      ),
+           DT::dataTableOutput("table")
+    
     )
-    )
-  )
-)
+)))
